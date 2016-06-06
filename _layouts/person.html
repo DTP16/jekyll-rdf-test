@@ -9,12 +9,39 @@ layout: default
   <table>
     <tbody>
       <tr>
+		{% assign result = page.rdf | rdf_property: 'http://xmlns.com/foaf/0.1/age,de' %}
         <td>Age</td>
-        <td>{% property http://xmlns.com/foaf/0.1/age%}</td>
+        <td>{{ result }} </td>
       <tr>
       <tr>
         <td>Sisters</td>
-        <td><ul>{% propertyList http://www.ifi.uio.no/INF3580/family#hasSister, <li>, </li> %}</ul></td>
+        <td>
+		{% assign resultset = page.rdf | rdf_property_list: 'http://www.ifi.uio.no/INF3580/family#hasSister' %}
+		<ul>
+		{% for result in resultset %}
+              		<li>{{ result }}</li>
+            	{% endfor %}
+		</ul>
+        </td>
+      </tr>
+      <tr>
+        <td>Job</td>
+        <td>{% assign resultset = page.rdf | rdf_property: 'http://xmlns.com/foaf/0.1/job,en' %}{{ resultset }}</td>
+      </tr>
+      <tr>
+        <td>Translated job</td>
+        <td>{% assign resultset = page.rdf | rdf_property: 'http://xmlns.com/foaf/0.1/job,de' %}{{ resultset }}</td>
+      </tr>
+
+      <tr>
+        <td>Job List</td>
+        <td>{% assign resultset = page.rdf | rdf_property_list: 'http://xmlns.com/foaf/0.1/job,en' %}
+		<ul>{% for result in resultset %}<li>{{ result }}</li>{% endfor %}</td>
+      </tr>
+      <tr>
+        <td>Translated job List</td>
+        <td>{% assign resultset = page.rdf | rdf_property_list: 'http://xmlns.com/foaf/0.1/job,de' %}
+		<ul>{% for result in resultset %}<li>{{ result }}</li>{% endfor %}</td>
       </tr>
     </tbody
   </table>
